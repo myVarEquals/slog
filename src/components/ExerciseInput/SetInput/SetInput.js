@@ -10,9 +10,9 @@ const setInput = props => (
         <label>Sets</label>
         <input type="text" className={classes.InputStyle} onChange={props.change} value={props.sets} id="sets"></input>
         <label>Reps</label>
-        <input type="text" className={classes.InputStyle} onChange={props.change} value={props.reps}></input>
+        <input type="text" className={classes.InputStyle} onChange={props.change} value={props.reps} id="reps"></input>
         <label>Weight</label>
-        <input type="text" className={classes.InputStyle} onChange={props.change} value={props.weight}></input>
+        <input type="text" className={classes.InputStyle} onChange={props.change} value={props.weight} id="weight"></input>
         <button type="button" onClick={props.submit} id="add">Add</button>
     </form>
 );
