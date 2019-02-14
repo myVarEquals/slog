@@ -7,6 +7,8 @@ import classes from './ExerciseInput.module.css';
 class ExerciseInput extends Component {
 
     state = {
+        named: false,
+        exerciseName: '',
         addSets: false,
         setsPerformed: [],
         currSets: {
@@ -16,13 +18,19 @@ class ExerciseInput extends Component {
         }    
     }
 
-    
-    
-      addSetHandler = () => {
-        this.state.addSets ? this.setState({addSets: false}) : this.setState({addSets: true});
-      }
+    updateNameHandler = (event) => {
+        this.setState({exerciseName: event.target.value});
+    }
 
-      updateSetHandler = event => {
+    addNameHandler = () => {
+        this.setState({named: true});
+    }
+    
+    addSetHandler = () => {
+        this.state.addSets ? this.setState({addSets: false}) : this.setState({addSets: true});
+    }
+
+    updateSetHandler = event => {
 
         let oldState = {
             ...this.state.currSets
@@ -32,22 +40,32 @@ class ExerciseInput extends Component {
         this.setState({currSets: {...oldState}});    
             
         // console.log(this.state);
-      }
-    
-      submitSetHandler = () => {
+    }
 
+    submitSetHandler = () => {
         let newSets = {...this.state.currSets};
         let mergeSets = [...this.state.setsPerformed]
         mergeSets.push(newSets);
         this.setState({setsPerformed: [...mergeSets]});
         console.log(this.state);        
-      }
+    }
 
     render () {
 
         let setsAdded = null;
         let addSetInput = null;
-        let buttonText = "Add Sets";
+        let buttonSetsText = "Add Sets";
+        let buttonNameText = "Add Name";
+        let exerciseHeader = (
+            <form>
+                <input type="text" onChange={this.updateNameHandler} id="exerciseHeader"></input>            
+                <button type="button" onClick={this.addNameHandler}>{buttonNameText}</button>
+            </form>
+        );
+
+        if(this.state.named) {
+            exerciseHeader = <h1>{this.state.exerciseName}</h1>
+        }        
     
         if (this.state.addSets) {
           addSetInput = (
@@ -58,7 +76,7 @@ class ExerciseInput extends Component {
                 reps={this.state.currSets.reps}
                 weight={this.state.currSets.weight}/>
           );
-          buttonText = "Finished";
+          buttonSetsText = "Finished";
           // console.log(this.state);
         }
 
@@ -73,9 +91,10 @@ class ExerciseInput extends Component {
 
         return (
             <div className={classes.ExerciseInputBox}>
+                {exerciseHeader}
                 {setsAdded}
                 {addSetInput}
-                <button onClick={this.addSetHandler}>{buttonText}</button>                
+                <button onClick={this.addSetHandler}>{buttonSetsText}</button>                
             </div>
         );
     }
