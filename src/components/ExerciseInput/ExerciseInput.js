@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import uuidv1 from 'uuid/v1';
 import SetInput from './SetInput/SetInput';
 import Set from './Set/Set';
 
@@ -12,6 +13,7 @@ class ExerciseInput extends Component {
         addSets: false,
         setsPerformed: [],
         currSets: {
+            id: null,
             sets: '',
             reps: '',
             weight: ''
@@ -42,8 +44,21 @@ class ExerciseInput extends Component {
         // console.log(this.state);
     }
 
+    removeSetHandler = setKey => {
+        console.log(setKey);
+        const setsPerformed = [...this.state.setsPerformed];
+        setsPerformed.map((curr, index) => {
+            if(curr.id === setKey) {
+                setsPerformed.splice(index, 1);
+            }
+        })
+        this.setState({setsPerformed: setsPerformed});
+    }
+
     submitSetHandler = () => {
+        let setKey = uuidv1();                
         let newSets = {...this.state.currSets};
+        newSets.id = setKey;
         let mergeSets = [...this.state.setsPerformed]
         mergeSets.push(newSets);
         this.setState({setsPerformed: [...mergeSets]});
@@ -67,7 +82,7 @@ class ExerciseInput extends Component {
             exerciseHeader = <h1>{this.state.exerciseName}</h1>
         }        
     
-        if (this.state.addSets) {
+        if (this.state.named && this.state.addSets) {
           addSetInput = (
             <SetInput 
                 submit={this.submitSetHandler} 
@@ -81,11 +96,13 @@ class ExerciseInput extends Component {
         }
 
         if (this.state.setsPerformed.length > 0) {
-            setsAdded = this.state.setsPerformed.map(curr => {
-                return <Set 
+            setsAdded = this.state.setsPerformed.map(curr => {            
+                return <Set
+                    key={curr.id} 
                     sets={curr.sets}
                     reps={curr.reps}
-                    weight={curr.weight}/>
+                    weight={curr.weight}
+                    remove={() => this.removeSetHandler(curr.id)}/>
             });
         }
 
