@@ -13,12 +13,20 @@ class App extends Component {
     this.state.addExercise ? this.setState({addExercise: false}) : this.setState({addExercise: true});
   }
 
+  submitExerciseHandler = (exercise) => {
+    console.log(exercise);
+  }
+
   render() {   
 
     let showAddExercise = null;
 
     if (this.state.addExercise) {
-      showAddExercise = <ExerciseInput />;
+      showAddExercise = <ExerciseInput
+                           submit={this.submitExerciseHandler}
+                           sets={0}
+                           reps={0}
+                           weight={0}/>;
     }
 
     return (

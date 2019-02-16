@@ -4,6 +4,7 @@ import SetInput from './SetInput/SetInput';
 import Set from './Set/Set';
 
 import classes from './ExerciseInput.module.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 class ExerciseInput extends Component {
 
@@ -14,10 +15,11 @@ class ExerciseInput extends Component {
         setsPerformed: [],
         currSets: {
             id: null,
-            sets: null,
-            reps: null,
-            weight: null
-        }    
+            sets: this.props.sets,
+            reps: this.props.reps,
+            weight: this.props.weight
+        },
+        edit: true    
     }
 
     updateNameHandler = (event) => {
@@ -29,9 +31,6 @@ class ExerciseInput extends Component {
     }
     
     addSetHandler = () => {
-        if(this.state.named && this.state.setsPerformed.length > 0) {
-
-        }
         this.state.addSets ? this.setState({addSets: false}) : this.setState({addSets: true});
     }
 
@@ -54,23 +53,17 @@ class ExerciseInput extends Component {
             if(curr.id === setKey) {
                 setsPerformed.splice(index, 1);
             }
-            return null;
         })
         this.setState({setsPerformed: setsPerformed});
     }
 
     submitSetHandler = () => {
-        if(!this.state.currSets.sets || !this.state.currSets.reps || !this.state.currSets.weight) {
-            alert('Please fill out all fields!');
-        } else {
-            let setKey = uuidv1();                
-            let newSets = {...this.state.currSets};
-            newSets.id = setKey;
-            let mergeSets = [...this.state.setsPerformed]
-            mergeSets.push(newSets);
-            this.setState({setsPerformed: [...mergeSets]});
-        }
-        
+        let setKey = uuidv1();                
+        let newSets = {...this.state.currSets};
+        newSets.id = setKey;
+        let mergeSets = [...this.state.setsPerformed]
+        mergeSets.push(newSets);
+        this.setState({setsPerformed: [...mergeSets]});
         console.log(this.state);        
     }
 
@@ -78,8 +71,11 @@ class ExerciseInput extends Component {
 
         let setsAdded = null;
         let addSetInput = null;
-        let buttonSetsText = "Add Sets";
+        let submitExercise = null;
+        let editExercise = null;
+
         let buttonNameText = "Add Name";
+
         let exerciseHeader = (
             <form>
                 <input type="text" onChange={this.updateNameHandler} id="exerciseHeader"></input>            
@@ -89,38 +85,40 @@ class ExerciseInput extends Component {
 
         if(this.state.named) {
             exerciseHeader = <h1>{this.state.exerciseName}</h1>
+            addSetInput = (
+                <SetInput 
+                    submit={this.submitSetHandler} 
+                    change={this.updateSetHandler}
+                    sets={this.state.currSets.sets}
+                    reps={this.state.currSets.reps}
+                    weight={this.state.currSets.weight}
+                    edit={this.state.edit}/>
+              );
+              submitExercise = <button onClick={() => this.props.submit(this.state)}>Finished</button>;
         }        
-    
-        if (this.state.named && this.state.addSets) {
-          addSetInput = (
-            <SetInput 
-                submit={this.submitSetHandler} 
-                change={this.updateSetHandler}
-                sets={this.state.currSets.sets}
-                reps={this.state.currSets.reps}
-                weight={this.state.currSets.weight}/>
-          );
-          buttonSetsText = "Finished";
-          // console.log(this.state);
-        }
 
         if (this.state.setsPerformed.length > 0) {
-            setsAdded = this.state.setsPerformed.map(curr => (            
-                <Set
+            setsAdded = this.state.setsPerformed.map(curr => {            
+                return <Set
                     key={curr.id} 
                     sets={curr.sets}
                     reps={curr.reps}
                     weight={curr.weight}
                     remove={() => this.removeSetHandler(curr.id)}/>
-            ));
+            });
+        }
+
+        if (!this.state.edit) {
+            editExercise = <FontAwesomeIcon icon="pencil-alt" className={classes.EditBtn}/>
         }
 
         return (
             <div className={classes.ExerciseInputBox}>
+                {editExercise}
                 {exerciseHeader}
                 {setsAdded}
                 {addSetInput}
-                <button onClick={this.addSetHandler}>{buttonSetsText}</button>                
+                {submitExercise}               
             </div>
         );
     }

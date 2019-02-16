@@ -1,7 +1,13 @@
 .ExerciseInputBox {
-    
+    position: relative;
     width: 300px;
     padding: 25px;
     border: 2px solid black;
 
+}
+
+.EditBtn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
 }
