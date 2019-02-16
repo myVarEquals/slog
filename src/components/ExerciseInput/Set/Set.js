@@ -4,9 +4,11 @@ import classes from './Set.module.css';
 
 const set = props => (
     <div className={classes.SetContainer}>
-        <h1>{props.sets}</h1>
-        <h1>{props.reps}</h1>
-        <h1>{props.weight}</h1>
+        <h2>{props.sets}</h2>
+        <h2>x</h2>
+        <h2>{props.reps}</h2>
+        <h2>x</h2>
+        <h2>{props.weight}</h2>
         <FontAwesomeIcon icon="ban" onClick={props.remove}/>
     </div>
 );

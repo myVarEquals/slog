@@ -4,11 +4,27 @@ import './App.css';
 
 class App extends Component {  
 
+  state = {
+    exercisesCompleted: [],
+    addExercise: false
+  }
+
+  addExerciseHandler = () => {
+    this.state.addExercise ? this.setState({addExercise: false}) : this.setState({addExercise: true});
+  }
+
   render() {   
+
+    let showAddExercise = null;
+
+    if (this.state.addExercise) {
+      showAddExercise = <ExerciseInput />;
+    }
 
     return (
       <div className="App">
-        <ExerciseInput />
+        {showAddExercise}
+        <button onClick={this.addExerciseHandler}>Add Exercise</button>
       </div>
     );
   }

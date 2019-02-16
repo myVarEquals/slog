@@ -14,9 +14,9 @@ class ExerciseInput extends Component {
         setsPerformed: [],
         currSets: {
             id: null,
-            sets: '',
-            reps: '',
-            weight: ''
+            sets: null,
+            reps: null,
+            weight: null
         }    
     }
 
@@ -29,6 +29,9 @@ class ExerciseInput extends Component {
     }
     
     addSetHandler = () => {
+        if(this.state.named && this.state.setsPerformed.length > 0) {
+
+        }
         this.state.addSets ? this.setState({addSets: false}) : this.setState({addSets: true});
     }
 
@@ -51,17 +54,23 @@ class ExerciseInput extends Component {
             if(curr.id === setKey) {
                 setsPerformed.splice(index, 1);
             }
+            return null;
         })
         this.setState({setsPerformed: setsPerformed});
     }
 
     submitSetHandler = () => {
-        let setKey = uuidv1();                
-        let newSets = {...this.state.currSets};
-        newSets.id = setKey;
-        let mergeSets = [...this.state.setsPerformed]
-        mergeSets.push(newSets);
-        this.setState({setsPerformed: [...mergeSets]});
+        if(!this.state.currSets.sets || !this.state.currSets.reps || !this.state.currSets.weight) {
+            alert('Please fill out all fields!');
+        } else {
+            let setKey = uuidv1();                
+            let newSets = {...this.state.currSets};
+            newSets.id = setKey;
+            let mergeSets = [...this.state.setsPerformed]
+            mergeSets.push(newSets);
+            this.setState({setsPerformed: [...mergeSets]});
+        }
+        
         console.log(this.state);        
     }
 
@@ -96,14 +105,14 @@ class ExerciseInput extends Component {
         }
 
         if (this.state.setsPerformed.length > 0) {
-            setsAdded = this.state.setsPerformed.map(curr => {            
-                return <Set
+            setsAdded = this.state.setsPerformed.map(curr => (            
+                <Set
                     key={curr.id} 
                     sets={curr.sets}
                     reps={curr.reps}
                     weight={curr.weight}
                     remove={() => this.removeSetHandler(curr.id)}/>
-            });
+            ));
         }
 
         return (
