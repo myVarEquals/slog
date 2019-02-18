@@ -17,7 +17,17 @@ class App extends Component {
 
   submitExerciseHandler = (exercise) => {
 
-    // ADD TO CHECK IF EXERCISE INPUT ALREADY EXISTS AFTER FINISHING AN EDIT
+    let isUnique = true;
+    console.log(exercise);
+
+    this.state.exercisesCompleted.map(curr => {
+      
+      console.log(curr.id);
+      console.log(exercise.id)
+      if (curr.id === exercise.id) {
+        isUnique = false;
+      }
+    });
 
     let newExerciseInput = {
       name: exercise.exerciseName,
@@ -25,11 +35,15 @@ class App extends Component {
         ...exercise.setsPerformed
       ]
     }
+    if (isUnique) {
+      newExerciseInput.id = uuidv1();      
+    } 
     let mergeExercises = [
       ...this.state.exercisesCompleted
     ]
     mergeExercises.push(newExerciseInput);
     this.setState({exercisesCompleted: mergeExercises});
+    this.setState({addExercise: false})       
   }
 
   render() {   
@@ -39,9 +53,8 @@ class App extends Component {
 
     if (this.state.exercisesCompleted.length > 0) {
       exercisesArray = this.state.exercisesCompleted.map(curr => {
-        let exerciseKey = uuidv1();
         return <ExerciseInput
-                  key={exerciseKey}
+                  key={curr.id}
                   submit={this.submitExerciseHandler}
                   name={curr.name}
                   named={true}
@@ -56,6 +69,7 @@ class App extends Component {
     if (this.state.addExercise) {
       showAddExercise = (
         <ExerciseInput
+          key={null}
           submit={this.submitExerciseHandler}
           name=''
           named={false}

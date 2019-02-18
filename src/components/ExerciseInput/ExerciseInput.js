@@ -9,6 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 class ExerciseInput extends Component {
 
     state = {
+        id: this.props.key,
         named: this.props.named,
         exerciseName: this.props.name,
         addSets: false,
