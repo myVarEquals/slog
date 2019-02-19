@@ -20,30 +20,32 @@ class App extends Component {
     let isUnique = true;
     console.log(exercise);
 
-    this.state.exercisesCompleted.map(curr => {
-      
+    this.state.exercisesCompleted.map(curr => {      
       console.log(curr.id);
       console.log(exercise.id)
       if (curr.id === exercise.id) {
         isUnique = false;
       }
     });
-
-    let newExerciseInput = {
-      name: exercise.exerciseName,
-      sets: [
-        ...exercise.setsPerformed
-      ]
-    }
+        
     if (isUnique) {
-      newExerciseInput.id = uuidv1();      
+
+      let newExerciseInput = {
+        id: uuidv1(),
+        name: exercise.exerciseName,
+        sets: [
+          ...exercise.setsPerformed
+        ]
+      }
+
+      let mergeExercises = [
+        ...this.state.exercisesCompleted
+      ]
+      mergeExercises.push(newExerciseInput);
+      this.setState({exercisesCompleted: mergeExercises});
+             
     } 
-    let mergeExercises = [
-      ...this.state.exercisesCompleted
-    ]
-    mergeExercises.push(newExerciseInput);
-    this.setState({exercisesCompleted: mergeExercises});
-    this.setState({addExercise: false})       
+    this.setState({addExercise: false})
   }
 
   render() {   
@@ -54,7 +56,8 @@ class App extends Component {
     if (this.state.exercisesCompleted.length > 0) {
       exercisesArray = this.state.exercisesCompleted.map(curr => {
         return <ExerciseInput
-                  key={curr.id}
+                  key={curr.id} 
+                  id={curr.id}
                   submit={this.submitExerciseHandler}
                   name={curr.name}
                   named={true}
@@ -69,7 +72,6 @@ class App extends Component {
     if (this.state.addExercise) {
       showAddExercise = (
         <ExerciseInput
-          key={null}
           submit={this.submitExerciseHandler}
           name=''
           named={false}

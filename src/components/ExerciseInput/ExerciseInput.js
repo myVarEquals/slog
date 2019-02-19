@@ -9,7 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 class ExerciseInput extends Component {
 
     state = {
-        id: this.props.key,
+        id: this.props.id,
         named: this.props.named,
         exerciseName: this.props.name,
         addSets: false,
@@ -65,6 +65,11 @@ class ExerciseInput extends Component {
         console.log(this.state);        
     }
 
+    submitExerciseHandler = () => {
+        this.setState({edit: false});
+        this.props.submit(this.state);
+    }
+
     render () {
 
         let setsAdded = null;
@@ -91,7 +96,7 @@ class ExerciseInput extends Component {
                     weight={this.state.currSets.weight}
                     edit={this.state.edit}/>
             );
-            submitExercise = <button onClick={() => this.props.submit(this.state)}>Finished</button>;
+            submitExercise = <button onClick={this.submitExerciseHandler}>Finished</button>;
         } else {                          
             editExercise = <FontAwesomeIcon icon="pencil-alt" className={classes.EditBtn} onClick={() => this.setState({edit: true})}/>
         }       
