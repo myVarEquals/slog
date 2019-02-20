@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faBan, faPencilAlt } from '@fortawesome/free-solid-svg-icons'
+import { faBan, faPencilAlt, faTimesCircle, faCheckCircle } from '@fortawesome/free-solid-svg-icons'
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
-library.add(faBan, faPencilAlt);
+library.add(faBan, faPencilAlt, faTimesCircle, faCheckCircle);
 
 ReactDOM.render(<App />, document.getElementById('root'));
 

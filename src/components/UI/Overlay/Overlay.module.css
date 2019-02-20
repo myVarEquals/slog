@@ -1,0 +1,5 @@
+.Overlay {
+    width: 100%;
+    color: rgba(191, 191, 191, 0.6);
+    z-index: 50;
+}

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import uuidv1 from 'uuid/v1';
 import SetInput from './SetInput/SetInput';
 import Set from './Set/Set';
+import Modal from '../UI/Modal/Modal';
 
 import classes from './ExerciseInput.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -20,7 +21,8 @@ class ExerciseInput extends Component {
             reps: this.props.reps,
             weight: this.props.weight
         },
-        edit: this.props.edit    
+        edit: this.props.edit,
+        removeConfirm: false    
     }
 
     updateNameHandler = (event) => {
@@ -77,6 +79,7 @@ class ExerciseInput extends Component {
         let submitExercise = null;
         let editExercise = null;
         let removeExercise = null;
+        let confirmRemove = null;
 
         let exerciseHeaderInput = null;
         let exerciseHeader = <h1>{this.state.exerciseName}</h1>;
@@ -99,7 +102,7 @@ class ExerciseInput extends Component {
             );
             submitExercise = <button onClick={this.submitExerciseHandler}>Finished</button>;
             if (this.state.id) {                
-                removeExercise = <FontAwesomeIcon icon="ban" className={classes.RemoveBtn} onClick={() => this.props.remove(this.state.id)}/>;
+                removeExercise = <FontAwesomeIcon icon="ban" className={classes.RemoveBtn} onClick={() => this.setState({removeConfirm: true})}/>;
             }
         } else {                          
             editExercise = <FontAwesomeIcon icon="pencil-alt" className={classes.EditBtn} onClick={() => this.setState({edit: true})}/>
@@ -117,12 +120,14 @@ class ExerciseInput extends Component {
             });
         }
 
-        if (this.state.edit) {
+        if (this.state.removeConfirm) {
+            confirmRemove = <Modal confirm={() => this.props.remove(this.state.id)} cancel={() => this.setState({removeConfirm: false})}  />;
         }
 
         return (
             <div className={classes.ExerciseInputBox}>
                 {removeExercise}
+                {confirmRemove}
                 {editExercise}
                 {exerciseHeader}
                 {exerciseHeaderInput}
