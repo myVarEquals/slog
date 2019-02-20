@@ -17,11 +17,8 @@ class App extends Component {
   submitExerciseHandler = exercise => {
 
     let isUnique = true;
-    console.log(exercise);
 
     this.state.exercisesCompleted.map(curr => {      
-      console.log(curr.id);
-      console.log(exercise.id)
       if (curr.id === exercise.id) {
         isUnique = false;
       }
@@ -47,8 +44,10 @@ class App extends Component {
     this.setState({addExercise: false});
   }
 
-  removeExerciseHandler = exercise => {
-    console.log(exercise);
+  removeExerciseHandler = index => {
+    const currExercises = [...this.state.exercisesCompleted];
+    currExercises.splice(index, 1);
+    this.setState({exercisesCompleted: currExercises});
   }
 
   render() {   
@@ -57,12 +56,12 @@ class App extends Component {
     let showAddExercise = null;
 
     if (this.state.exercisesCompleted.length > 0) {
-      exercisesArray = this.state.exercisesCompleted.map(curr => {
+      exercisesArray = this.state.exercisesCompleted.map((curr, index) => {
         return <ExerciseInput
                   key={curr.id} 
                   id={curr.id}
                   submit={this.submitExerciseHandler}
-                  remove={this.removeExerciseHandler}
+                  remove={() => this.removeExerciseHandler(index)}
                   name={curr.name}
                   named={true}
                   setsPerformed={curr.sets}
