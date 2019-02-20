@@ -76,6 +76,7 @@ class ExerciseInput extends Component {
         let addSetInput = null;
         let submitExercise = null;
         let editExercise = null;
+        let removeExercise = null;
 
         let exerciseHeaderInput = null;
         let exerciseHeader = <h1>{this.state.exerciseName}</h1>;
@@ -97,6 +98,9 @@ class ExerciseInput extends Component {
                     edit={this.state.edit}/>
             );
             submitExercise = <button onClick={this.submitExerciseHandler}>Finished</button>;
+            if (this.state.id) {                
+                removeExercise = <FontAwesomeIcon icon="ban" className={classes.RemoveBtn} onClick={() => this.props.remove(this.state.id)}/>;
+            }
         } else {                          
             editExercise = <FontAwesomeIcon icon="pencil-alt" className={classes.EditBtn} onClick={() => this.setState({edit: true})}/>
         }       
@@ -108,6 +112,7 @@ class ExerciseInput extends Component {
                     sets={curr.sets}
                     reps={curr.reps}
                     weight={curr.weight}
+                    edit={this.state.edit}
                     remove={() => this.removeSetHandler(curr.id)}/>
             });
         }
@@ -117,6 +122,7 @@ class ExerciseInput extends Component {
 
         return (
             <div className={classes.ExerciseInputBox}>
+                {removeExercise}
                 {editExercise}
                 {exerciseHeader}
                 {exerciseHeaderInput}

@@ -7,15 +7,14 @@ class App extends Component {
 
   state = {
     exercisesCompleted: [],
-    addExercise: false,
-    activeEdit: false
+    addExercise: false
   }
 
-  addExerciseHandler = () => {
-    this.state.addExercise ? this.setState({addExercise: false}) : this.setState({addExercise: true});
+  addExerciseHandler = () => {    
+      this.state.addExercise ? this.setState({addExercise: false}) : this.setState({addExercise: true});    
   }
 
-  submitExerciseHandler = (exercise) => {
+  submitExerciseHandler = exercise => {
 
     let isUnique = true;
     console.log(exercise);
@@ -45,7 +44,11 @@ class App extends Component {
       this.setState({exercisesCompleted: mergeExercises});
              
     } 
-    this.setState({addExercise: false})
+    this.setState({addExercise: false});
+  }
+
+  removeExerciseHandler = exercise => {
+    console.log(exercise);
   }
 
   render() {   
@@ -59,6 +62,7 @@ class App extends Component {
                   key={curr.id} 
                   id={curr.id}
                   submit={this.submitExerciseHandler}
+                  remove={this.removeExerciseHandler}
                   name={curr.name}
                   named={true}
                   setsPerformed={curr.sets}
@@ -73,6 +77,7 @@ class App extends Component {
       showAddExercise = (
         <ExerciseInput
           submit={this.submitExerciseHandler}
+          remove={this.removeExerciseHandler}
           name=''
           named={false}
           setsPerformed={[]}
