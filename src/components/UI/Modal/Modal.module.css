@@ -1,4 +1,22 @@
 .ModalBox {
-    width: 100%;
-    z-index: 100;
+    position: fixed;
+    width: 70%;
+    top: 30%;
+    left: 15%;
+    z-index: 500;
+    background: white;
+    border: 1px solid black;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.CheckCircle {
+    color: green;
+    font-size: 15px;
+}
+
+.TimesCircle {
+    color: red;
+    font-size: 35px;
 }
