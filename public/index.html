@@ -37,5 +37,19 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
+  
+  <script src="https://www.gstatic.com/firebasejs/5.8.4/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.8.4/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.8.4/firebase-firestore.js"></script>
+  <script>
+    // Initialize Firebase
+    var config = {
+      apiKey: "AIzaSyA09OGrM4KxNrhz2H_Y89L0fXz5STNCBlQ",
+      authDomain: "slog-ada5b.firebaseapp.com",
+      databaseURL: "https://slog-ada5b.firebaseio.com",
+      projectId: "slog-ada5b"
+    };
+    firebase.initializeApp(config);
+  </script>  
   </body>
 </html>

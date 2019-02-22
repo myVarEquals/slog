@@ -57,7 +57,8 @@ class ExerciseInput extends Component {
         this.setState({setsPerformed: setsPerformed});
     }
 
-    submitSetHandler = () => {
+    submitSetHandler = (e) => {
+        e.preventDefault();
         let setKey = uuidv1();                
         let newSets = {...this.state.currSets};
         newSets.id = setKey;

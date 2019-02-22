@@ -3,6 +3,8 @@ import uuidv1 from 'uuid/v1';
 import ExerciseInput from './components/ExerciseInput/ExerciseInput';
 import './App.css';
 
+import Login from './components/Login/Login';
+
 class App extends Component {  
 
   state = {
@@ -93,6 +95,10 @@ class App extends Component {
         <button onClick={this.addExerciseHandler}>Add Exercise</button>
       </div>
     );
+
+    // return (
+    //   <Login />
+    // );
   }
 }
 
