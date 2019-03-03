@@ -7,7 +7,7 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
     switch ( action.type ) {
-        case 'UPDATE_EXERCISE_ARRAY':
+        case 'CONCAT_EXERCISE_ARRAY':
             let isUnique = true;
             let newExerciseInput = null;
 
@@ -32,6 +32,16 @@ const reducer = (state = initialState, action) => {
             return {
                 addExercise: false,
                 exerciseArray: state.exerciseArray.concat(newExerciseInput)
+            }
+        case 'SPLICE_EXERCISE_ARRAY':
+            
+            let currExercises = [...state.exerciseArray];
+            console.log(currExercises);
+            console.log(action.payload.id);
+            // action.payload.id
+            return {
+                ...state,
+                exerciseArray: currExercises.filter(curr => curr.id !== action.payload.id)
             }
         case 'ADD_EXERCISE':
             let updatedAdd = !state.addExercise

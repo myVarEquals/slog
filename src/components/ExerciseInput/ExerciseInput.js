@@ -124,8 +124,14 @@ class ExerciseInput extends Component {
         if (this.state.removeConfirm) {
             confirmRemove = <Modal>
                                 <p>Are you sure?</p>
-                                <FontAwesomeIcon icon="check-circle" onClick={() => this.props.remove(this.state.id)} className={classes.CheckCircle} />
-                                <FontAwesomeIcon icon="times-circle" onClick={() => this.setState({removeConfirm: false})} className={classes.TimesCircle} />
+                                <FontAwesomeIcon 
+                                    icon="check-circle" 
+                                    onClick={() => this.props.remove(this.state.id)} 
+                                    className={classes.CheckCircle} />
+                                <FontAwesomeIcon 
+                                    icon="times-circle" 
+                                    onClick={() => this.setState({removeConfirm: false})} 
+                                    className={classes.TimesCircle} />
                             </Modal>;
         }
 

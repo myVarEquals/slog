@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import uuidv1 from 'uuid/v1';
 import ExerciseInput from './components/ExerciseInput/ExerciseInput';
 import './App.css';
 
@@ -13,15 +12,8 @@ class App extends Component {
     exercisesCompleted: []
   }
 
-  submitExerciseHandler = exercise => {
-
-    
-  }
-
   removeExerciseHandler = index => {
-    const currExercises = [...this.state.exercisesCompleted];
-    currExercises.splice(index, 1);
-    this.setState({exercisesCompleted: currExercises});
+
   }
 
   render() {   
@@ -35,7 +27,7 @@ class App extends Component {
                   key={curr.id} 
                   id={curr.id}
                   submit={this.submitExerciseHandler}
-                  remove={() => this.removeExerciseHandler(index)}
+                  remove={(index) => this.props.onSpliceExerciseArray(index)}
                   name={curr.name}
                   named={true}
                   setsPerformed={curr.sets}
@@ -49,8 +41,8 @@ class App extends Component {
     if (this.props.addExer) {
       showAddExercise = (
         <ExerciseInput
-          submit={(exercise) => this.props.onUpdateExerciseArray(exercise)}
-          remove={this.removeExerciseHandler}
+          submit={(exercise) => this.props.onConcatExerciseArray(exercise)}
+          remove={(index) => this.props.onSpliceExerciseArray(index)}
           name=''
           named={false}
           setsPerformed={[]}
@@ -84,7 +76,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     onAddExercise: () => dispatch({type: 'ADD_EXERCISE'}),
-    onUpdateExerciseArray: (exercise) => dispatch({type: 'UPDATE_EXERCISE_ARRAY', payload: {...exercise}})
+    onConcatExerciseArray: (exercise) => dispatch({type: 'CONCAT_EXERCISE_ARRAY', payload: {...exercise}}),
+    onSpliceExerciseArray: (id) => dispatch({type: 'SPLICE_EXERCISE_ARRAY', payload: {id}})
   }
 }
 
