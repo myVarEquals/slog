@@ -1,19 +1,16 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+
 import uuidv1 from 'uuid/v1';
 import ExerciseInput from './components/ExerciseInput/ExerciseInput';
 import './App.css';
 
-import Login from './components/Login/Login';
+// import Login from './components/Login/Login';
 
 class App extends Component {  
 
   state = {
-    exercisesCompleted: [],
-    addExercise: false
-  }
-
-  addExerciseHandler = () => {    
-      this.state.addExercise ? this.setState({addExercise: false}) : this.setState({addExercise: true});    
+    exercisesCompleted: []
   }
 
   submitExerciseHandler = exercise => {
@@ -74,7 +71,7 @@ class App extends Component {
       });
     }
 
-    if (this.state.addExercise) {
+    if (this.props.addExer) {
       showAddExercise = (
         <ExerciseInput
           submit={this.submitExerciseHandler}
@@ -92,7 +89,7 @@ class App extends Component {
       <div className="App">
         {exercisesArray}
         {showAddExercise}
-        <button onClick={this.addExerciseHandler}>Add Exercise</button>
+        <button onClick={this.props.onAddExercise}>Add Exercise</button>
       </div>
     );
 
@@ -102,4 +99,16 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapStateToProps = state => {
+  return {
+    addExer: state.addExercise
+  }  
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onAddExercise: () => dispatch({type: 'ADD_EXERCISE'})
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
