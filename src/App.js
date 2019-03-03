@@ -15,32 +15,7 @@ class App extends Component {
 
   submitExerciseHandler = exercise => {
 
-    let isUnique = true;
-
-    this.state.exercisesCompleted.map(curr => {      
-      if (curr.id === exercise.id) {
-        isUnique = false;
-      }
-    });
-        
-    if (isUnique) {
-
-      let newExerciseInput = {
-        id: uuidv1(),
-        name: exercise.exerciseName,
-        sets: [
-          ...exercise.setsPerformed
-        ]
-      }
-
-      let mergeExercises = [
-        ...this.state.exercisesCompleted
-      ]
-      mergeExercises.push(newExerciseInput);
-      this.setState({exercisesCompleted: mergeExercises});
-             
-    } 
-    this.setState({addExercise: false});
+    
   }
 
   removeExerciseHandler = index => {
@@ -54,8 +29,8 @@ class App extends Component {
     let exercisesArray = null;
     let showAddExercise = null;
 
-    if (this.state.exercisesCompleted.length > 0) {
-      exercisesArray = this.state.exercisesCompleted.map((curr, index) => {
+    if (this.props.exerciseArray.length > 0) {
+      exercisesArray = this.props.exerciseArray.map((curr, index) => {
         return <ExerciseInput
                   key={curr.id} 
                   id={curr.id}
@@ -74,7 +49,7 @@ class App extends Component {
     if (this.props.addExer) {
       showAddExercise = (
         <ExerciseInput
-          submit={this.submitExerciseHandler}
+          submit={(exercise) => this.props.onUpdateExerciseArray(exercise)}
           remove={this.removeExerciseHandler}
           name=''
           named={false}
@@ -101,13 +76,15 @@ class App extends Component {
 
 const mapStateToProps = state => {
   return {
-    addExer: state.addExercise
+    addExer: state.addExercise,
+    exerciseArray: state.exerciseArray
   }  
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    onAddExercise: () => dispatch({type: 'ADD_EXERCISE'})
+    onAddExercise: () => dispatch({type: 'ADD_EXERCISE'}),
+    onUpdateExerciseArray: (exercise) => dispatch({type: 'UPDATE_EXERCISE_ARRAY', payload: {...exercise}})
   }
 }
 
